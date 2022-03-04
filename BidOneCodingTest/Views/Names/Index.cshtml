@@ -1,0 +1,68 @@
+﻿
+@model List<BidOneCodingTest.Models.NameModel>
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js">
+    </script>
+</head>
+<body>
+    <form>
+        <fieldset>
+            <div>
+                <label for="firstName">First Name</label>
+                <input type="text" name="firstName" id="firstName" placeholder="Enter your first name" />
+            </div>
+            <div>
+                <label for="lastName">Last Name</label>
+                <input type="text" name="lastName" id="lastName" placeholder="Enter your last name" />
+            </div>
+            <div>
+                <input type="button" value="submit" class="submit" onclick="return saveData()" />
+            </div>
+        </fieldset>
+    </form>
+    <br />
+    <table border="1">
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.firstName</td>
+                <td>@item.lastName</td>
+            </tr>
+
+        }
+    </table>
+</body>
+</html>
+
+<script>
+    function saveData() {
+        var firstName = document.getElementById("firstName").value;
+        var lastName = document.getElementById("lastName").value;
+        if (firstName !== "" && lastName !== "") {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("AddName","Names")",
+                data: {
+                    firstName: firstName,
+                    lastName: lastName
+                },
+                // dataType: "application/json; charset=utf-8",
+                success: function (response) {
+                    alert(response)
+                    window.location.reload();
+                }
+            });
+        }
+        else {
+            alert("Please enter all fields");
+            window.location.reload();
+        }
+
+    }
+</script>
